@@ -9,8 +9,16 @@ interface Image {
     url: string;
 }
 
+interface Text {
+    text: string;
+}
+
 interface Content {
-    text: string; // Adjust this based on the actual structure
+    children: Text[];// Adjust this based on the actual structure
+}
+
+interface Text {
+    text: string;
 }
 
 
@@ -37,34 +45,34 @@ const PostDetail = () => {
     const [loading, setLoading] = useState(true); // State to manage loading
     const [error, setError] = useState<string | null>(null); // State to manage errors
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const res = await fetch(`http://127.0.0.1:1337/api/posts?populate=*`); // Fetch all posts
-                if (!res.ok) {
-                    throw new Error('Falha ao buscar os posts');
-                }
-                const data = await res.json();
-                console.log(data); // Check the structure of the data
-
-                // Find the post that matches the slug
-                const foundPost = data.data.find((item: Post) => item.slug === slug);
-                if (foundPost) {
-                    setPost(foundPost); // Set the found post
-                } else {
-                    setError('Post não encontrado'); // Handle case where post is not found
-                }
-            } catch (err: unknown) {
-                if (err instanceof Error) {
-                    setError(err.message); // Set error message if err is an instance of Error
-                } else {
-                    setError('Ocorreu um erro desconhecido'); // Fallback for unknown errors
-                }
-            } finally {
-                setLoading(false); // Set loading to false after fetching
+    const fetchPosts = async () => {
+        try {
+            const res = await fetch(`http://127.0.0.1:1337/api/posts?populate=*`); // Fetch all posts
+            if (!res.ok) {
+                throw new Error('Falha ao buscar os posts');
             }
-        };
+            const data = await res.json();
+            console.log(data); // Check the structure of the data
 
+            // Find the post that matches the slug
+            const foundPost = data.data.find((item: Post) => item.slug === slug);
+            if (foundPost) {
+                setPost(foundPost); // Set the found post
+            } else {
+                setError('Post não encontrado'); // Handle case where post is not found
+            }
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message); // Set error message if err is an instance of Error
+            } else {
+                setError('Ocorreu um erro desconhecido'); // Fallback for unknown errors
+            }
+        } finally {
+            setLoading(false); // Set loading to false after fetching
+        }
+    };
+
+    useEffect(() => {
         if (slug) {
             fetchPosts(); // Call the function to fetch posts
         }
@@ -107,7 +115,7 @@ const PostDetail = () => {
             <p className="text-sm text-gray-500 mt-2">{post.category}</p>
             <h1 className="text-3xl font-bold mt-2">{post.title}</h1>
             <div className="mt-4">
-                <p>{post.content.length > 0 ? post.content[0].text : 'Conteúdo não disponível'}</p>
+                <p>{post.content.length > 0 ? post.content[0].children[0].text : 'Conteúdo não disponível'}</p>
             </div>
         </div>
     );
