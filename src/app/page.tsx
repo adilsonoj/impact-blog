@@ -13,7 +13,13 @@ interface Post {
     author: string;
     date: string;
     image: Image [];
-    avatar: string;
+    avatar: {
+        formats: {
+            thumbnail: {
+                url: string;
+            };
+        };
+    };
 }
 
 async function fetchPosts(): Promise<Post[]> {
@@ -58,7 +64,7 @@ export default async function Home() {
                         <CardPost 
                             key={index} 
                             author={post.author} 
-                            avatarUrl={post.avatar} 
+                            avatarUrl={post.avatar ? post.avatar.formats.thumbnail.url : ''} 
                             category={post.category} 
                             date={post.date} 
                             title={post.title} 

@@ -30,7 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
         <ThemeProvider attribute="class" defaultTheme="light">
-          <div className="grid grid-cols-12 max-w-[1218px] mx-auto ">
+          <div className="grid grid-cols-12 max-w-[1218px] mx-auto pb-14 ">
             <Header />
             {children}
           </div>

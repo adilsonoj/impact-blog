@@ -13,13 +13,6 @@ interface Content {
     text: string; // Adjust this based on the actual structure
 }
 
-interface Formats {
-    thumbnail: {
-        url: string;
-    };
-}
-
-
 
 interface Post {
     slug: string;
@@ -95,22 +88,22 @@ const PostDetail = () => {
                 <div className='w-full h-64'>
                     <Image src={`http://127.0.0.1:1337${post.image[0].url}`} alt={post.title} fill className="object-cover rounded-md" />
                 </div>
-                
+
             </div>
             <div className=" bottom-4 left-4 bg-white bg-opacity-75 p-2 rounded">
-                    <div className="flex items-center">
-                        {post.avatar && post.avatar.formats ? (
-                            <Avatar>
-                                <AvatarImage src={`http://127.0.0.1:1337${post.avatar.formats.thumbnail.url}`} />
-                                <AvatarFallback>{post.author ? post.author.charAt(0) : ''}</AvatarFallback>
-                            </Avatar>
-                           
-                        ) : (
-                            <div className="w-8 h-8 rounded-full bg-gray-300" />
-                        )}
-                        <span className="ml-2 text-sm font-semibold">{post.author}</span>
-                    </div>
+                <div className="flex items-center">
+                    {post.avatar && post.avatar.formats ? (
+                        <Avatar>
+                            <AvatarImage src={`http://127.0.0.1:1337${post.avatar.formats.thumbnail.url}`} />
+                            <AvatarFallback>{post.author ? post.author.charAt(0) : ''}</AvatarFallback>
+                        </Avatar>
+
+                    ) : (
+                        <div className="w-8 h-8 rounded-full bg-gray-300" />
+                    )}
+                    <span className="ml-2 text-sm font-semibold">{post.author}</span>
                 </div>
+            </div>
             <p className="text-sm text-gray-500 mt-2">{post.category}</p>
             <h1 className="text-3xl font-bold mt-2">{post.title}</h1>
             <div className="mt-4">
