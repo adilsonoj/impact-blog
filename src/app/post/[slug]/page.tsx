@@ -9,9 +9,7 @@ interface Image {
     url: string;
 }
 
-interface Text {
-    text: string;
-}
+
 
 interface Content {
     children: Text[];// Adjust this based on the actual structure
@@ -31,16 +29,13 @@ interface Post {
     date: string;
     image: Image[];
     avatar: {
-        formats: {
-            thumbnail: {
-                url: string;
-            };
-        };
+        url: string;
     };
 }
 
 const PostDetail = () => {
     const { slug } = useParams(); // Get the slug from the URL parameters
+    
     const [post, setPost] = useState<Post | null>(null); // State to hold post data
     const [loading, setLoading] = useState(true); // State to manage loading
     const [error, setError] = useState<string | null>(null); // State to manage errors
@@ -52,7 +47,7 @@ const PostDetail = () => {
                 throw new Error('Falha ao buscar os posts');
             }
             const data = await res.json();
-            console.log(data); // Check the structure of the data
+          // Check the structure of the data
 
             // Find the post that matches the slug
             const foundPost = data.data.find((item: Post) => item.slug === slug);
@@ -100,9 +95,9 @@ const PostDetail = () => {
             </div>
             <div className=" bottom-4 left-4 bg-white bg-opacity-75 p-2 rounded">
                 <div className="flex items-center">
-                    {post.avatar && post.avatar.formats ? (
+                    {post.avatar && post.avatar ? (
                         <Avatar>
-                            <AvatarImage src={`http://127.0.0.1:1337${post.avatar.formats.thumbnail.url}`} />
+                            <AvatarImage src={`http://127.0.0.1:1337${post.avatar.url}`} />
                             <AvatarFallback>{post.author ? post.author.charAt(0) : ''}</AvatarFallback>
                         </Avatar>
 
