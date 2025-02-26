@@ -2,6 +2,7 @@
 import { Search } from "lucide-react";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { ModeToggle } from "./ui/theme/theme-toggle";
 
 const Header = () => {
     const pathname = usePathname();
@@ -31,6 +32,9 @@ const Header = () => {
                         <input type="text" className="bg-transparent focus:outline-none" />
                         <Search size={20} />
                     </div>
+                </div>
+                <div>
+                   <ModeToggle />
                 </div>
             </div>
         </header>

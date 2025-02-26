@@ -1,4 +1,5 @@
 import CardPost from "@/components/CardPost";
+import CardFeatured from "@/components/CardFeatured";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 
@@ -84,46 +85,25 @@ async function fetchPosts(): Promise<Post[]> {
     return data.data || [];
 }
 
-
-
 interface Image {
     url: string;
 }
 
-
-
-
-
 export default async function Home() {
     const posts = await fetchPosts()
-    const featuredPost = posts.find(post => post.featured === true)
+    const featuredPost = posts.filter(post => post.featured === true)
     if(!featuredPost) {
         return <div>No featured post found</div>
     }
 
+    console.log( "posts", posts)
+    console.log( "featuredPost", featuredPost)
+
     return (
         <div className="col-span-12 gap-8 flex flex-col">
-            <div className={`bg-cover bg-center h-[450px] max-w-[1218px] w-full mx-auto rounded-xl flex flex-col justify-end gap-4 pl-10 pb-10`} 
-            style={{backgroundImage: `url("http://127.0.0.1:1337${featuredPost?.image[0].url}")`}}>
-            
-                <span className="bg-[#4B6BFB] text-white px-2 py-1 rounded-lg max-w-fit">
-                    Technology
-                </span>
-                <h1 className="text-white font-semibold text-4xl max-w-[720px]">
-                    {featuredPost?.title}
-                </h1>
 
-                <div className="flex items-center gap-8">
-                    <div className="flex items-center gap-2"> 
-                        <Avatar>
-                            <AvatarImage src="https://github.com/ManoelGomesDev.png" />
-                            <AvatarFallback>ML</AvatarFallback>
-                        </Avatar>
-                        <span className="text-white">Manoel Gomes</span>
-                    </div>
-                    <span className="text-white">August 20, 2022</span>
-                </div>
-            </div>
+            <CardFeatured featuredPost={featuredPost} />
+
             <div className="col-span-12 grid grid-cols-12 gap-4 ">
                 {
                     posts.map((post, index) => (
@@ -134,7 +114,7 @@ export default async function Home() {
                             category={post.category} 
                             date={post.createdAt} 
                             title={post.title} 
-                            url={post.image[0].url} 
+                            url={post.image ? post.image[0].url : ""} 
                             slug={post.slug} 
                         />
                     ))
