@@ -3,7 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../../globals.css";
 
 import { ThemeProvider } from "@/components/ui/theme/theme-provider";
-
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "../_components/AppSidebar";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,10 +31,13 @@ export default function DashboardLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
         <ThemeProvider attribute="class" defaultTheme="light">
-          <div className="grid grid-cols-12 max-w-[1218px] mx-auto pb-14 ">
-      
-            {children}
-          </div>
+          <SidebarProvider>
+            <AppSidebar />
+            <SidebarTrigger />
+            <div className="grid grid-cols-12 max-w-[1218px] mx-auto pb-14 ">
+              {children}
+                </div>
+            </SidebarProvider>
         </ThemeProvider>
       </body>
     </html>
