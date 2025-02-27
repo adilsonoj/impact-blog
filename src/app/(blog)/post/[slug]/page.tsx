@@ -85,11 +85,19 @@ const PostDetail = () => {
         return <div>Post não encontrado</div>; // Handle case where post is not found
     }
 
+    console.log( "post.image", post.image)
+
     return (
         <div className="max-w-4xl mx-auto p-4 col-span-12 w-full">
             <div className="relative">
                 <div className='w-full h-64'>
-                    <Image src={`http://127.0.0.1:1337${post.image[0].url}`} alt={post.title} fill className="object-cover rounded-md" />
+                    {
+                        post.image ? (
+                            <Image src={`http://127.0.0.1:1337${post.image[0].url}`} alt={post.title} fill className="object-cover rounded-md" />
+                        ) : (
+                            <div className="w-full h-64 bg-gray-300 rounded-md" />
+                        )
+                    }
                 </div>
 
             </div>

@@ -34,7 +34,7 @@ export default function DashboardLayout({
           <SidebarProvider>
             <AppSidebar />
             <SidebarTrigger />
-            <div className="grid grid-cols-12 max-w-[1218px] mx-auto pb-14 ">
+            <div className="grid grid-cols-12 max-w-[1218px] mx-auto p-14 w-full">
               {children}
                 </div>
             </SidebarProvider>
