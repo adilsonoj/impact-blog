@@ -4,12 +4,21 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import FormNewPost from "../_components/FormNewPost";
-
-
+import { Pencil, Trash } from "lucide-react";
+import ButtonDelete from "../_components/ButtonDelete";
+import ButtonEdit from "../_components/ButtonEdit";
 interface Post {
     id: string
     title: string
     author: string
+    content: {
+        type: string
+        children: {
+            type: string
+            text: string
+        }[]
+    }[]
+    documentId: string
     createdAt: string
 }
 
@@ -23,16 +32,11 @@ async function fetchPosts(): Promise<Post[]> {
     return data.data || []
 }
 
-
-
-
-
-
 export default async function NewPost() {
 
     const posts = await fetchPosts()
 
-   
+    console.log(posts)
 
     return (
         <div className="col-span-12 space-y-4">
@@ -47,7 +51,7 @@ export default async function NewPost() {
                         <DialogHeader>
                             <DialogTitle>Novo Post</DialogTitle>
                             <DialogContent>
-                                <FormNewPost />
+                                <FormNewPost  />
                             </DialogContent>
                         </DialogHeader>
                     </DialogContent>
@@ -70,6 +74,9 @@ export default async function NewPost() {
                                 <TableHead>
                                     Data de criação
                                 </TableHead>
+                                <TableHead>
+                                    Ações
+                                </TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -84,6 +91,10 @@ export default async function NewPost() {
                                         </TableCell>
                                         <TableCell>
                                             {post.createdAt}
+                                        </TableCell>
+                                        <TableCell className="flex gap-2">
+                                           <ButtonEdit id={post.documentId} title={post.title} content={post.content}  />
+                                            <ButtonDelete title={post.title} id={post.documentId} />
                                         </TableCell>
                                     </TableRow>
                                 ))
