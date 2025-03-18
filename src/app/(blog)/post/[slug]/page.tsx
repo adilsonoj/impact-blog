@@ -35,19 +35,19 @@ interface Post {
 
 const PostDetail = () => {
     const { slug } = useParams(); // Get the slug from the URL parameters
-    
+
     const [post, setPost] = useState<Post | null>(null); // State to hold post data
     const [loading, setLoading] = useState(true); // State to manage loading
     const [error, setError] = useState<string | null>(null); // State to manage errors
 
     const fetchPosts = async () => {
         try {
-            const res = await fetch(`http://127.0.0.1:1337/api/posts?populate=*`); // Fetch all posts
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}posts`); // Fetch all posts
             if (!res.ok) {
                 throw new Error('Falha ao buscar os posts');
             }
             const data = await res.json();
-          // Check the structure of the data
+            // Check the structure of the data
 
             // Find the post that matches the slug
             const foundPost = data.data.find((item: Post) => item.slug === slug);
@@ -85,7 +85,7 @@ const PostDetail = () => {
         return <div>Post não encontrado</div>; // Handle case where post is not found
     }
 
-    console.log( "post.image", post.image)
+    console.log("post.image", post.image)
 
     return (
         <div className="max-w-4xl mx-auto p-4 col-span-12 w-full">
@@ -93,7 +93,7 @@ const PostDetail = () => {
                 <div className='w-full h-64'>
                     {
                         post.image ? (
-                            <Image src={`http://127.0.0.1:1337${post.image[0].url}`} alt={post.title} fill className="object-cover rounded-md" />
+                            <Image src={`${process.env.NEXT_PUBLIC_API_URL}${post.image[0].url}`} alt={post.title} fill className="object-cover rounded-md" />
                         ) : (
                             <div className="w-full h-64 bg-gray-300 rounded-md" />
                         )
@@ -105,7 +105,7 @@ const PostDetail = () => {
                 <div className="flex items-center">
                     {post.avatar && post.avatar ? (
                         <Avatar>
-                            <AvatarImage src={`http://127.0.0.1:1337${post.avatar.url}`} />
+                            <AvatarImage src={`${process.env.NEXT_PUBLIC_API_URL}${post.avatar.url}`} />
                             <AvatarFallback>{post.author ? post.author.charAt(0) : ''}</AvatarFallback>
                         </Avatar>
 

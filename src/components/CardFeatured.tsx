@@ -45,14 +45,14 @@ export default function CardFeatured({ featuredPost }: CardFeaturedProps) {
             autoplay={{
                 delay: 2500,
                 disableOnInteraction: false,
-              }}
+            }}
             navigation
         >
             {
                 featuredPost && featuredPost.map((post, index) => (
                     <SwiperSlide key={index}>
                         <div className={`bg-cover bg-center h-[450px] max-w-[1218px] w-full mx-auto rounded-xl flex flex-col justify-end gap-4 pl-10 pb-10`}
-                            style={{ backgroundImage: `url("http://127.0.0.1:1337${post?.image[0].url}")` }}>
+                            style={{ backgroundImage: `url("${process.env.NEXT_PUBLIC_API_URL}${post?.image[0].url}")` }}>
 
                             <span className="bg-[#4B6BFB] text-white px-2 py-1 rounded-lg max-w-fit">
                                 {post?.category}

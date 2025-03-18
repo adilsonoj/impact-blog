@@ -18,14 +18,14 @@ const CardPost: React.FC<CardPostProps> = ({ author, avatarUrl, category, date, 
             <div className="border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300 w-full col-span-4">
                 <div className="relative w-full h-48">
 
-                <Image src={`http://127.0.0.1:1337${url}`} alt={title} fill className="rounded-md" style={{ objectFit: 'cover' }} />
+                    <Image src={url} alt={title} fill className="rounded-md" style={{ objectFit: 'cover' }} />
                 </div>
                 <div className="mt-2">
                     <h2 className="text-lg font-bold">{title}</h2>
                     <p className="text-sm text-gray-500">{category} - {date}</p>
                     <div className="flex items-center mt-2">
                         <Avatar>
-                            <AvatarImage src={`http://127.0.0.1:1337${avatarUrl}`} alt={author} />
+                            <AvatarImage src={`${process.env.NEXT_PUBLIC_API_URL}${avatarUrl}`} alt={author} />
                             <AvatarFallback>
                                 {author ? author.charAt(0) : "?"}
                             </AvatarFallback>

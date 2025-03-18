@@ -25,12 +25,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
-        <ThemeProvider attribute="class" defaultTheme="light">
-          <div className="grid grid-cols-12 max-w-[1218px] mx-auto pb-14 ">
+        <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light">
+          <div className="grid grid-cols-12 max-w-[1218px] mx-auto pb-14">
             <Header />
             {children}
           </div>

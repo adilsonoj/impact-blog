@@ -18,6 +18,7 @@ interface Content {
 interface PostData {
     title: string;
     author: string;
+    url: string;
     slug: string;
     category: string;
     content: Content[];
@@ -29,7 +30,7 @@ export default function FormNewPost() {
 
     const form = useForm<PostData>()
 
-    const onSubmit = async(data: PostData) => {
+    const onSubmit = async (data: PostData) => {
         const formattedData = {
             data: {
                 title: data.title,
@@ -37,7 +38,7 @@ export default function FormNewPost() {
                     {
                         type: "paragraph",
                         children: [
-                            {   
+                            {
                                 type: "text",
                                 text: data.content[0]?.children[0]?.text || ""
                             }
@@ -46,12 +47,14 @@ export default function FormNewPost() {
                 ],
                 author: data.author,
                 slug: data.slug,
-                category: data.category
+                category: data.category,
+                url: data.url,
+                date: new Date().toISOString()
             }
         }
 
         try {
-            const response = await fetch("http://127.0.0.1:1337/api/posts", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}posts`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -70,42 +73,48 @@ export default function FormNewPost() {
 
     return (
         <div className="w-full max-w-md">
-        <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormItem>
-            <FormLabel>Titulo</FormLabel>
-            <FormControl>
-                <Input {...form.register("title")} />
-            </FormControl>
-        </FormItem>
-        <FormItem>
-            <FormLabel>Autor</FormLabel>
-            <FormControl>
-                <Input {...form.register("author")} />
-            </FormControl>
-        </FormItem> 
-        <FormItem>
-            <FormLabel>Slug</FormLabel>
-            <FormControl>
-                <Input {...form.register("slug")} />
-            </FormControl>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <FormItem>
+                        <FormLabel>Titulo</FormLabel>
+                        <FormControl>
+                            <Input {...form.register("title")} />
+                        </FormControl>
+                    </FormItem>
+                    <FormItem>
+                        <FormLabel>Autor</FormLabel>
+                        <FormControl>
+                            <Input {...form.register("author")} />
+                        </FormControl>
+                    </FormItem>
+                    <FormItem>
+                        <FormLabel>Url Capa</FormLabel>
+                        <FormControl>
+                            <Input {...form.register("url")} />
+                        </FormControl>
+                    </FormItem>
+                    <FormItem>
+                        <FormLabel>Slug</FormLabel>
+                        <FormControl>
+                            <Input {...form.register("slug")} />
+                        </FormControl>
 
-        </FormItem>
-        <FormItem>
-            <FormLabel>Categoria</FormLabel>
-            <FormControl>
-                <Input {...form.register("category")} />
-            </FormControl>
-        </FormItem>
-        <FormItem>
-            <FormLabel>Conteúdo</FormLabel>
-            <FormControl>
-                <Input {...form.register("content.0.children.0.text")} />
-            </FormControl>
-        </FormItem>
-        <Button type="submit">Criar</Button>
-        </form>
-        </Form>
+                    </FormItem>
+                    <FormItem>
+                        <FormLabel>Categoria</FormLabel>
+                        <FormControl>
+                            <Input {...form.register("category")} />
+                        </FormControl>
+                    </FormItem>
+                    <FormItem>
+                        <FormLabel>Conteúdo</FormLabel>
+                        <FormControl>
+                            <Input {...form.register("content.0.children.0.text")} />
+                        </FormControl>
+                    </FormItem>
+                    <Button type="submit">Criar</Button>
+                </form>
+            </Form>
         </div>
     )
 }

@@ -1,12 +1,11 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import FormNewPost from "../_components/FormNewPost";
-import { Pencil, Trash } from "lucide-react";
 import ButtonDelete from "../_components/ButtonDelete";
 import ButtonEdit from "../_components/ButtonEdit";
+
 interface Post {
     id: string
     title: string
@@ -22,14 +21,21 @@ interface Post {
     createdAt: string
 }
 
-
 async function fetchPosts(): Promise<Post[]> {
-    const response = await fetch("http://127.0.0.1:1337/api/posts")
-    const data = await response.json()
-    if (!response.ok) {
-        throw new Error("Failed to fetch posts")
+    try {
+        const url = process.env.NEXT_PUBLIC_API_URL
+        const response = await fetch(`${url}posts`, {
+            cache: 'no-store'
+        })
+        if (!response.ok) {
+            throw new Error("Failed to fetch posts")
+        }
+        const data = await response.json()
+        return data.data || []
+    } catch (error) {
+        console.error("Error fetching posts:", error)
+        return []
     }
-    return data.data || []
 }
 
 export default async function NewPost() {
@@ -51,7 +57,7 @@ export default async function NewPost() {
                         <DialogHeader>
                             <DialogTitle>Novo Post</DialogTitle>
                             <DialogContent>
-                                <FormNewPost  />
+                                <FormNewPost />
                             </DialogContent>
                         </DialogHeader>
                     </DialogContent>
@@ -93,7 +99,7 @@ export default async function NewPost() {
                                             {post.createdAt}
                                         </TableCell>
                                         <TableCell className="flex gap-2">
-                                           <ButtonEdit id={post.documentId} title={post.title} content={post.content}  />
+                                            <ButtonEdit id={post.documentId} title={post.title} content={post.content} />
                                             <ButtonDelete title={post.title} id={post.documentId} />
                                         </TableCell>
                                     </TableRow>

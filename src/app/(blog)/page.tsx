@@ -1,6 +1,5 @@
 import CardPost from "@/components/CardPost";
 import CardFeatured from "@/components/CardFeatured";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 
 
@@ -62,27 +61,39 @@ import Image from "next/image";
 // ];
 
 interface Post {
-    slug: string;
-    title: string;
-    content: string;
-    category: string;
-    author: string;
-    createdAt: string;
-    featured: boolean;
-    image: Image [];
-    avatar: {
+    data: {
+        slug: string;
+        title: string;
+        content: string;
+        category: string;
+        author: string;
+        createdAt: string;
+        featured: boolean;
+        image: Image[];
         url: string;
-    };
+        date: string;
+        avatar: {
+            url: string;
+        };
+    }
 }
 
 async function fetchPosts(): Promise<Post[]> {
-    const url = "http://127.0.0.1:1337/api/"
-    const response = await fetch(`${url}posts?populate=*`)
-    if(!response.ok) {
-        throw new Error("Failed to fetch posts")
+    try {
+        console.log("fetchPosts", process.env.NEXT_PUBLIC_API_URL)
+        const url = process.env.NEXT_PUBLIC_API_URL
+        const response = await fetch(`${url}posts`, {
+            cache: 'no-store'
+        })
+        if (!response.ok) {
+            throw new Error("Failed to fetch posts")
+        }
+        const data = await response.json()
+        return data || []
+    } catch (error) {
+        console.error("Error fetching posts:", error)
+        return []
     }
-    const data = await response.json()
-    return data.data || [];
 }
 
 interface Image {
@@ -91,31 +102,31 @@ interface Image {
 
 export default async function Home() {
     const posts = await fetchPosts()
-    const featuredPost = posts.filter(post => post.featured === true)
-    if(!featuredPost) {
+    // const featuredPost = posts.filter(post => post.data.featured === true)
+    if (posts.length == 0) {
         return <div>No featured post found</div>
     }
 
-    console.log( "posts", posts)
-    console.log( "featuredPost", featuredPost)
+    console.log("posts", posts)
+
 
     return (
         <div className="col-span-12 gap-8 flex flex-col">
 
-            <CardFeatured featuredPost={featuredPost} />
+            {/* <CardFeatured featuredPost={posts.data} /> */}
 
             <div className="col-span-12 grid grid-cols-12 gap-4 ">
                 {
                     posts.map((post, index) => (
-                        <CardPost 
-                            key={index} 
-                            author={post.author} 
-                            avatarUrl={post.avatar ? post.avatar.url : ""} 
-                            category={post.category} 
-                            date={post.createdAt} 
-                            title={post.title} 
-                            url={post.image ? post.image[0].url : ""} 
-                            slug={post.slug} 
+                        <CardPost
+                            key={index}
+                            author={post.data.author}
+                            avatarUrl={post.data.avatar ? post.data.avatar.url : ""}
+                            category={post.data.category}
+                            date={post.data.date?.split("T")[0].split("-").reverse().join("/")}
+                            title={post.data.title}
+                            url={post.data.url ?? ""}
+                            slug={post.data.slug}
                         />
                     ))
                 }
