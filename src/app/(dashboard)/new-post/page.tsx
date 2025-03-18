@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import FormNewPost from "../_components/FormNewPost";
 import ButtonDelete from "../_components/ButtonDelete";
 import ButtonEdit from "../_components/ButtonEdit";
+import { BASE_URL } from "@/lib/utils";
 
 interface Post {
     id: string
@@ -23,7 +24,7 @@ interface Post {
 
 async function fetchPosts(): Promise<Post[]> {
     try {
-        const url = process.env.NEXT_PUBLIC_API_URL
+        const url = BASE_URL
         const response = await fetch(`${url}posts`, {
             cache: 'no-store'
         })

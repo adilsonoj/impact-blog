@@ -1,6 +1,7 @@
 import CardPost from "@/components/CardPost";
 import CardFeatured from "@/components/CardFeatured";
 import Image from "next/image";
+import { BASE_URL } from "@/lib/utils";
 
 
 // const postsData = [
@@ -80,8 +81,8 @@ interface Post {
 
 async function fetchPosts(): Promise<Post[]> {
     try {
-        console.log("fetchPosts", process.env.NEXT_PUBLIC_API_URL)
-        const url = process.env.NEXT_PUBLIC_API_URL
+        console.log("fetchPosts", BASE_URL)
+        const url = BASE_URL
         const response = await fetch(`${url}posts`, {
             cache: 'no-store'
         })

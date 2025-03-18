@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { BASE_URL } from '@/lib/utils';
 
 interface Image {
     url: string;
@@ -42,7 +43,7 @@ const PostDetail = () => {
 
     const fetchPosts = async () => {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}posts`); // Fetch all posts
+            const res = await fetch(`${BASE_URL}posts`); // Fetch all posts
             if (!res.ok) {
                 throw new Error('Falha ao buscar os posts');
             }
@@ -93,7 +94,7 @@ const PostDetail = () => {
                 <div className='w-full h-64'>
                     {
                         post.image ? (
-                            <Image src={`${process.env.NEXT_PUBLIC_API_URL}${post.image[0].url}`} alt={post.title} fill className="object-cover rounded-md" />
+                            <Image src={`${BASE_URL}${post.image[0].url}`} alt={post.title} fill className="object-cover rounded-md" />
                         ) : (
                             <div className="w-full h-64 bg-gray-300 rounded-md" />
                         )
@@ -105,7 +106,7 @@ const PostDetail = () => {
                 <div className="flex items-center">
                     {post.avatar && post.avatar ? (
                         <Avatar>
-                            <AvatarImage src={`${process.env.NEXT_PUBLIC_API_URL}${post.avatar.url}`} />
+                            <AvatarImage src={`${BASE_URL}${post.avatar.url}`} />
                             <AvatarFallback>{post.author ? post.author.charAt(0) : ''}</AvatarFallback>
                         </Avatar>
 

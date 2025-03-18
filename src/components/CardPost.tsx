@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { BASE_URL } from "@/lib/utils";
 
 interface CardPostProps {
     author: string | undefined;
@@ -25,7 +26,7 @@ const CardPost: React.FC<CardPostProps> = ({ author, avatarUrl, category, date, 
                     <p className="text-sm text-gray-500">{category} - {date}</p>
                     <div className="flex items-center mt-2">
                         <Avatar>
-                            <AvatarImage src={`${process.env.NEXT_PUBLIC_API_URL}${avatarUrl}`} alt={author} />
+                            <AvatarImage src={`${BASE_URL}${avatarUrl}`} alt={author} />
                             <AvatarFallback>
                                 {author ? author.charAt(0) : "?"}
                             </AvatarFallback>

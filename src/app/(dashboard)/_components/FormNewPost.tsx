@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { BASE_URL } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 
 
@@ -54,7 +55,7 @@ export default function FormNewPost() {
         }
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}posts`, {
+            const response = await fetch(`${BASE_URL}posts`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
