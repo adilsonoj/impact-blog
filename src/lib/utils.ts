@@ -5,4 +5,4 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const BASE_URL = "https://crudcrud.com/api/6af3064736354f6b93056ebeabe9bd9a/"
+export const BASE_URL = "https://crudcrud.com/api/a194a9d7537649859727037f8fdab378/"
